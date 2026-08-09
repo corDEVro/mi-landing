@@ -1,0 +1,62 @@
+---
+const steps = [
+	{
+		number: '01',
+		title: 'Descubrimiento',
+		description: 'Analizamos tu negocio, objetivos y público para definir la estrategia.',
+	},
+	{
+		number: '02',
+		title: 'Diseño UX/UI',
+		description: 'Creamos la estructura y el diseño, con prototipos que revisas antes de programar.',
+	},
+	{
+		number: '03',
+		title: 'Desarrollo',
+		description: 'Convertimos el diseño en un producto real, con código limpio y a medida.',
+	},
+	{
+		number: '04',
+		title: 'Entrega y soporte',
+		description: 'Lanzamos tu proyecto y te acompañamos con mantenimiento y mejoras continuas.',
+	},
+];
+---
+
+<section id="proceso" class="bg-white">
+	<div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+		<div class="mx-auto mb-16 max-w-2xl text-center">
+			<h2 data-reveal class="text-balance text-3xl font-bold tracking-tight text-prussia sm:text-4xl">
+				Cómo trabajamos
+			</h2>
+			<p data-reveal style="--reveal-delay: 120ms" class="mt-4 text-lg leading-relaxed text-prussia/70">
+				Un proceso claro y cercano, para que sepas qué pasa en cada fase y sin sorpresas.
+			</p>
+		</div>
+
+		<div class="relative">
+			<div
+				aria-hidden="true"
+				class="absolute left-0 right-0 top-7 hidden h-px bg-prussia/15 lg:block"
+			></div>
+
+			<ol class="grid gap-10 lg:grid-cols-4 lg:gap-6">
+				{steps.map((step, index) => (
+					<li
+						data-reveal
+						style={`--reveal-delay: ${index * 120}ms`}
+						class="relative text-center lg:text-left"
+					>
+						<span
+							class="relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-prussia text-lg font-bold text-mint shadow-lg lg:mx-0"
+						>
+							{step.number}
+						</span>
+						<h3 class="mt-4 text-lg font-semibold text-prussia">{step.title}</h3>
+						<p class="mt-2 leading-relaxed text-prussia/70">{step.description}</p>
+					</li>
+				))}
+			</ol>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,42 @@
+---
+import { socials } from '../data/socials';
+import SocialIcon from './icons/SocialIcon.astro';
+
+const email = 'jm.corderoganfornina@gmail.com';
+---
+
+<section id="contacto" class="bg-prussia text-white">
+	<div class="mx-auto max-w-3xl px-4 py-20 text-center sm:px-6 sm:py-28">
+		<h2 data-reveal class="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+			¿Hablamos de tu proyecto?
+		</h2>
+		<p data-reveal style="--reveal-delay: 120ms" class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/75">
+			Cuéntame tu idea y te responderé con una propuesta clara y sin compromiso.
+		</p>
+
+		<div data-reveal style="--reveal-delay: 240ms" class="mt-10">
+			<a
+				href={`mailto:${email}`}
+				class="inline-block rounded-md bg-mint px-8 py-3.5 text-base font-semibold text-prussia shadow-lg transition hover:bg-white"
+			>
+				Hablemos de tu proyecto
+			</a>
+		</div>
+
+		<ul data-reveal style="--reveal-delay: 360ms" class="mt-10 flex items-center justify-center gap-6">
+			{socials.map((social) => (
+				<li>
+					<a
+						href={social.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={social.label}
+						class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-mint hover:text-prussia"
+					>
+						<SocialIcon icon={social.icon} />
+					</a>
+				</li>
+			))}
+		</ul>
+	</div>
+</section>

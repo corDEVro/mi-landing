@@ -1,0 +1,90 @@
+---
+import { projects } from '../data/projects';
+---
+
+<section id="proyectos" class="bg-frost/50">
+	<div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+		<div class="mx-auto mb-14 max-w-2xl text-center">
+			<h2 data-reveal class="text-balance text-3xl font-bold tracking-tight text-prussia sm:text-4xl">
+				Proyectos destacados
+			</h2>
+			<p data-reveal style="--reveal-delay: 120ms" class="mt-4 text-lg leading-relaxed text-prussia/70">
+				Una muestra de lo que podemos construir juntos.
+			</p>
+		</div>
+
+		<ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			{projects.map((project, index) => (
+				<li
+					data-reveal
+					style={`--reveal-delay: ${index * 120}ms`}
+					class="overflow-hidden rounded-2xl border border-prussia/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
+				>
+					{project.url ? (
+						<a
+							href={project.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="block h-full"
+							aria-label={`Ver el proyecto ${project.title}`}
+						>
+							{project.image ? (
+								<img
+									src={project.image}
+									alt={project.alt ?? project.title}
+									class="aspect-video w-full object-contain bg-gradient-to-br from-prussia to-mint/70 p-8"
+								/>
+							) : (
+								<div
+									aria-hidden="true"
+									class="flex aspect-video items-center justify-center bg-linear-to-br from-prussia to-mint/70"
+								>
+									<span class="text-4xl font-bold text-white/90">{project.title.charAt(0)}</span>
+								</div>
+							)}
+							<div class="p-6">
+								<h3 class="text-xl font-semibold text-prussia">{project.title}</h3>
+								<p class="mt-2 leading-relaxed text-prussia/70">{project.description}</p>
+								<ul class="mt-4 flex flex-wrap gap-2">
+									{project.tech.map((tech) => (
+										<li class="rounded-full bg-frost px-3 py-1 text-xs font-medium text-prussia">
+											{tech}
+										</li>
+									))}
+								</ul>
+							</div>
+						</a>
+					) : (
+						<>
+							{project.image ? (
+								<img
+									src={project.image}
+									alt={project.alt ?? project.title}
+									class="aspect-video w-full object-contain bg-gradient-to-br from-prussia to-mint/70 p-8"
+								/>
+							) : (
+								<div
+									aria-hidden="true"
+									class="flex aspect-video items-center justify-center bg-linear-to-br from-prussia to-mint/70"
+								>
+									<span class="text-4xl font-bold text-white/90">{project.title.charAt(0)}</span>
+								</div>
+							)}
+							<div class="p-6">
+								<h3 class="text-xl font-semibold text-prussia">{project.title}</h3>
+								<p class="mt-2 leading-relaxed text-prussia/70">{project.description}</p>
+								<ul class="mt-4 flex flex-wrap gap-2">
+									{project.tech.map((tech) => (
+										<li class="rounded-full bg-frost px-3 py-1 text-xs font-medium text-prussia">
+											{tech}
+										</li>
+									))}
+								</ul>
+							</div>
+						</>
+					)}
+				</li>
+			))}
+		</ul>
+	</div>
+</section>

@@ -1,0 +1,186 @@
+---
+const sections = [
+	{ id: 'inicio', label: 'Inicio' },
+	{ id: 'servicios', label: 'Servicios' },
+	{ id: 'proceso', label: 'Proceso' },
+	{ id: 'proyectos', label: 'Proyectos' },
+	{ id: 'contacto', label: 'Contacto' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-prussia/10 bg-mint text-prussia">
+	<div class="grid grid-cols-[auto_1fr_auto] items-center gap-4 px-4 py-3 sm:px-6">
+		<a href="#inicio" class="flex shrink-0 items-center">
+			<img src="/Logo.png" alt="CORDEVRO" class="h-10 w-auto" />
+		</a>
+
+		<nav class="hidden justify-center md:flex" aria-label="Navegación principal">
+			<ul class="flex items-center gap-1">
+				{sections.map((s) => (
+					<li>
+						<a href={`#${s.id}`} class="nav-link" data-active={s.id === 'inicio'}>
+							{s.label}
+						</a>
+					</li>
+				))}
+			</ul>
+		</nav>
+
+		<div class="flex items-center justify-end">
+			<a
+				href="#contacto"
+				class="hidden rounded-md bg-prussia px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-prussia/90 md:inline-flex"
+			>
+				Hablemos
+			</a>
+			<button
+				id="menu-toggle"
+				type="button"
+				class="inline-flex h-10 w-10 items-center justify-center rounded-md text-prussia transition-colors hover:bg-prussia/10 md:hidden"
+				aria-label="Abrir menú"
+				aria-controls="mobile-menu"
+				aria-expanded="false"
+			>
+				<svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+					<path d="M4 7h16M4 12h16M4 17h16" />
+				</svg>
+			</button>
+		</div>
+	</div>
+
+	<nav
+		id="mobile-menu"
+		class="fixed inset-0 z-40 hidden flex flex-col items-center justify-center gap-8 bg-mint md:hidden"
+		aria-label="Menú móvil"
+	>
+		{sections.map((s) => (
+			<a href={`#${s.id}`} class="nav-link" data-active={s.id === 'inicio'}>
+				{s.label}
+			</a>
+		))}
+	</nav>
+</header>
+
+<script>
+	const toggle = document.getElementById('menu-toggle');
+	const menu = document.getElementById('mobile-menu');
+
+	function setMenu(open) {
+		menu.classList.toggle('hidden', !open);
+		toggle.setAttribute('aria-expanded', String(open));
+		toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+	}
+
+	toggle.addEventListener('click', () => {
+		setMenu(menu.classList.contains('hidden'));
+	});
+
+	menu.querySelectorAll('a').forEach((link) => {
+		link.addEventListener('click', () => setMenu(false));
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') setMenu(false);
+	});
+
+	const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+	const sections = Array.from(document.querySelectorAll('main section[id]'));
+
+	function setActive(id) {
+		navLinks.forEach((link) => {
+			link.setAttribute('data-active', link.getAttribute('href') === `#${id}` ? 'true' : 'false');
+		});
+	}
+
+	if ('IntersectionObserver' in window) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) setActive(entry.target.id);
+				});
+			},
+			{ rootMargin: '-50% 0px -50% 0px' },
+		);
+
+		sections.forEach((section) => observer.observe(section));
+	}
+
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	function smoothScrollTo(targetId) {
+		const section = document.getElementById(targetId);
+		if (!section) return;
+
+		const headerOffset = document.querySelector('header')?.offsetHeight ?? 0;
+		const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+		if (reduceMotion) {
+			window.scrollTo({ top, behavior: 'instant' });
+			return;
+		}
+
+		const start = window.scrollY;
+		const distance = top - start;
+		if (Math.abs(distance) < 2) return;
+
+		const duration = Math.min(1100, Math.max(450, Math.abs(distance) * 0.5));
+		const startTime = performance.now();
+
+		function easeInOutQuad(t) {
+			return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+		}
+
+		function step(now) {
+			const progress = Math.min(1, (now - startTime) / duration);
+			window.scrollTo({ top: start + distance * easeInOutQuad(progress), behavior: 'instant' });
+			if (progress < 1) requestAnimationFrame(step);
+		}
+
+		requestAnimationFrame(step);
+	}
+
+	document.querySelectorAll('a[href^="#"]').forEach((link) => {
+		link.addEventListener('click', (event) => {
+			const id = link.getAttribute('href').slice(1);
+			if (!document.getElementById(id)) return;
+			event.preventDefault();
+			smoothScrollTo(id);
+			history.replaceState(null, '', `#${id}`);
+		});
+	});
+</script>
+
+<style>
+	.nav-link {
+		border-radius: 0.375rem;
+		padding: 0.5rem 0.75rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: rgb(42 59 76 / 0.75);
+		transition:
+			color 300ms,
+			background-color 300ms,
+			font-size 300ms,
+			box-shadow 300ms;
+	}
+
+	.nav-link:hover {
+		color: var(--color-prussia);
+	}
+
+	.nav-link[data-active='true'] {
+		color: #fff;
+		background-color: var(--color-prussia);
+		font-size: 1.125rem;
+		font-weight: 700;
+		box-shadow: 0 4px 16px -4px rgb(42 59 76 / 0.4);
+	}
+
+	#mobile-menu .nav-link {
+		font-size: 1.25rem;
+	}
+
+	#mobile-menu .nav-link[data-active='true'] {
+		font-size: 1.375rem;
+	}
+</style>
