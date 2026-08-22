@@ -13,6 +13,8 @@ export const projects: Project[] = [
 		description:
 			'App web familiar para llevar el álbum de cromos de la Liga Este 2026/27: cada usuario tiene su colección, marca lo pegado y lleva la lista de faltados al kiosco. Desplegada en producción de punta a punta.',
 		tech: ['React', 'TypeScript', 'Spring Boot', 'PostgreSQL', 'JWT'],
+		image: '/buscador-cromos.png',
+		alt: 'Lupa con un balón de fútbol: el buscador de cromos',
 		url: 'https://buscador-cromos.netlify.app',
 	},
 	{
